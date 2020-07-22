@@ -13,12 +13,10 @@ public class SavingsAccount extends BankAccount {
 
 	public SavingsAccount(String name) {
 		super(name);
-		// TODO Auto-generated constructor stub
 	}
 
 	public SavingsAccount(String name, double initialBalance) {
 		super(name, initialBalance);
-		// TODO Auto-generated constructor stub
 	}
 	
 	public void compoundInterest() {

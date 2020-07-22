@@ -9,8 +9,8 @@ public class Main {
 		Thread[] users = new Thread[10];
 		int[] threadNames = new int[10];
 		for(int i = 0; i < users.length; i++) {
-			if(i % 2 == 0) users[i] = new Producer(james);
-			else users[i] = new Consumer(james);
+			if(i % 2 == 0) users[i] = new Depositer(james);
+			else users[i] = new Withdrawer(james);
 		}
 		for(int i = 0; i < users.length; i++) {
 			System.out.println("Starting thread " + users[i].getName());
@@ -29,24 +29,24 @@ public class Main {
 				
 	}
 	
-	static class Producer extends Thread{
-		BankAccount a;
-		Producer(BankAccount ba){
-			this.a = ba;
+	static class Depositer extends Thread{
+		BankAccount account;
+		Depositer(BankAccount account){
+			this.account = account;
 		}
 		public void run() {
-			a.deposit(100);
+			account.deposit(100);
 		}
 		
 	}
 	
-	static class Consumer extends Thread{
-		BankAccount a;
-		Consumer(BankAccount ba){
-			this.a = ba;
+	static class Withdrawer extends Thread{
+		BankAccount account;
+		Withdrawer(BankAccount account){
+			this.account = account;
 		}
 		public void run() {
-			a.withdraw(50);
+			account.withdraw(50);
 		}
 	}
 

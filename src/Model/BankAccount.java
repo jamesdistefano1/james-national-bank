@@ -4,10 +4,10 @@ import java.util.Date;
 
 abstract class BankAccount {
 	static private int numberOfAccounts;
-	private int accountNumber;
+	private final int accountNumber;
 	private double balance;
-	private String accountHolder;
-	private Date accountOpened;
+	private final String accountHolder;
+	private final Date accountOpened;
 	private int withdrawsLeft;
 	
 	public BankAccount(String name) {
@@ -18,6 +18,7 @@ abstract class BankAccount {
 	}
 	
 	public BankAccount(String name, double initialBalance) {
+		this.accountNumber = ++numberOfAccounts;
 		this.balance = initialBalance;
 		this.accountHolder = name;
 		this.accountOpened = new Date();
@@ -35,10 +36,6 @@ abstract class BankAccount {
 		return accountNumber;
 	}
 
-	public void setAccountNumber(int accountNumber) {
-		this.accountNumber = accountNumber;
-	}
-
 	public synchronized double getBalance() {
 		return balance;
 	}
@@ -51,16 +48,8 @@ abstract class BankAccount {
 		return accountHolder;
 	}
 
-	public void setAccountHolder(String accountHolder) {
-		this.accountHolder = accountHolder;
-	}
-
 	public Date getAccountOpened() {
 		return accountOpened;
-	}
-
-	public void setAccountOpened(Date accountOpened) {
-		this.accountOpened = accountOpened;
 	}
 
 	public int getWithdrawsLeft() {
@@ -71,19 +60,19 @@ abstract class BankAccount {
 		this.withdrawsLeft = withdrawsLeft;
 	}
 
-	public synchronized void deposit(double d) {
+	public synchronized void deposit(double depositAmount) {
 		try {
 			Thread.sleep(300);
 		}
 		catch(InterruptedException e) {
 			e.getMessage();
 		}
-		balance += d;
+		balance += depositAmount;
 		printReceipt();
 	}
 	
-	public synchronized void withdraw(double w) {
-		while (w > balance) {
+	public synchronized void withdraw(double withdrawalAmount) {
+		while (withdrawalAmount > balance) {
 	        try {
 	           wait(); // wait for funds
 	        } catch (InterruptedException ie) {
@@ -91,7 +80,7 @@ abstract class BankAccount {
 	        }
 	    }
 		if (balance > 0) {
-			balance -= w;
+			balance -= withdrawalAmount;
 			printReceipt();
 		}
 		else System.out.println("ERROR: You are way too broke for that!");
